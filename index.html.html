@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Práctica Integral: Agencia de Marketing</title>
+    <style>
+        :root {
+            --primary: #2980B9;
+            --secondary: #1A5276;
+            --accent: #F9E79F;
+            --success: #ABEBC6;
+            --bg: #f4f7f6;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1 {
+            background-color: var(--secondary);
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 1.5em;
+        }
+        h2 {
+            color: var(--secondary);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        .student-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            background-color: #eaf2f8;
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 5px solid var(--primary);
+            margin-bottom: 20px;
+        }
+        label { font-weight: bold; color: #2c3e50; display: block; margin-bottom: 5px; }
+        input[type="text"], input[type="number"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        input.step-input { width: 120px; background-color: var(--accent); }
+        input.final-input { width: 120px; background-color: var(--success); font-weight: bold; }
+        input[readonly] { background-color: #eee; color: #555; }
+        
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #bdc3c7; padding: 10px; text-align: center; }
+        th { background-color: var(--primary); color: white; }
+        .sum-row { background-color: #D4E6F1; font-weight: bold; }
+        
+        .formula-section {
+            background-color: #fcfcfc;
+            border: 1px solid #eee;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .step-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .step-label { font-weight: bold; width: 120px; }
+        
+        .budget-box {
+            background-color: #FDEDEC;
+            padding: 20px;
+            border-radius: 5px;
+            border-left: 5px solid #E74C3C;
+        }
+        
+        button.submit-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 15px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        button.submit-btn:hover { background-color: #11364d; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Práctica Integral: Método de Mínimos Cuadrados</h1>
+    
+    <!-- REEMPLAZA EL ENLACE ACTION POR TU LINK DE FORMSPREE -->
+    <form action="https://formspree.io/f/mbglyjjr" method="POST">
+        
+        <div class="student-info">
+            <div>
+                <label>Nombre del Alumno:</label>
+                <input type="text" name="Nombre" required placeholder="Ej. Ana Gómez">
+            </div>
+            <div>
+                <label>Matrícula / ID:</label>
+                <input type="text" name="Matricula" required placeholder="Ej. 123456">
+            </div>
+        </div>
+
+        <h2>1. Tabla de Datos Históricos (6 Meses)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Mes</th>
+                    <th>Y (Costo Total)</th>
+                    <th>X (Publicaciones)</th>
+                    <th>X²</th>
+                    <th>XY</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1</td><td>$7,500</td><td>20</td><td><input type="number" name="x2_m1" class="step-input" required></td><td><input type="number" name="xy_m1" class="step-input" required></td></tr>
+                <tr><td>2</td><td>$8,250</td><td>25</td><td><input type="number" name="x2_m2" class="step-input" required></td><td><input type="number" name="xy_m2" class="step-input" required></td></tr>
+                <tr><td>3</td><td>$6,750</td><td>15</td><td><input type="number" name="x2_m3" class="step-input" required></td><td><input type="number" name="xy_m3" class="step-input" required></td></tr>
+                <tr><td>4</td><td>$9,000</td><td>30</td><td><input type="number" name="x2_m4" class="step-input" required></td><td><input type="number" name="xy_m4" class="step-input" required></td></tr>
+                <tr><td>5</td><td>$7,800</td><td>22</td><td><input type="number" name="x2_m5" class="step-input" required></td><td><input type="number" name="xy_m5" class="step-input" required></td></tr>
+                <tr><td>6</td><td>$8,700</td><td>28</td><td><input type="number" name="x2_m6" class="step-input" required></td><td><input type="number" name="xy_m6" class="step-input" required></td></tr>
+                <tr class="sum-row">
+                    <td>Σ Sumatorias</td>
+                    <td><input type="number" name="sum_y" value="48000" readonly></td>
+                    <td><input type="number" name="sum_x" value="140" readonly></td>
+                    <td><input type="number" name="sum_x2" class="step-input" required placeholder="Σ X²"></td>
+                    <td><input type="number" name="sum_xy" class="step-input" required placeholder="Σ XY"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2>2. Procedimiento Paso a Paso (Despeje)</h2>
+        
+        <div class="formula-section">
+            <h3>A. Costo Variable Unitario (b)</h3>
+            <p><i>Fórmula: b = [ n(Σxy) - (Σx)(Σy) ] / [ n(Σx²) - (Σx)² ]</i></p>
+            
+            <div class="step-row">
+                <div class="step-label">Multiplicación:</div>
+                b = ( <input type="number" name="b_mult_num1" class="step-input" placeholder="n * Σxy"> - <input type="number" name="b_mult_num2" class="step-input" placeholder="Σx * Σy"> ) / 
+                ( <input type="number" name="b_mult_den1" class="step-input" placeholder="n * Σx²"> - <input type="number" name="b_mult_den2" class="step-input" placeholder="(Σx)²"> )
+            </div>
+            <div class="step-row">
+                <div class="step-label">Resta:</div>
+                b = <input type="number" name="b_resta_num" class="step-input"> / <input type="number" name="b_resta_den" class="step-input">
+            </div>
+            <div class="step-row">
+                <div class="step-label">Resultado Final:</div>
+                b = <input type="number" step="0.01" name="b_final" id="b_final" class="final-input" required> <i>(Costo variable por publicación)</i>
+            </div>
+        </div>
+
+        <div class="formula-section">
+            <h3>B. Costo Fijo Total (a)</h3>
+            <p><i>Fórmula: a = [ (Σy)(Σx²) - (Σx)(Σxy) ] / [ n(Σx²) - (Σx)² ]</i></p>
+            
+            <div class="step-row">
+                <div class="step-label">Multiplicación:</div>
+                a = ( <input type="number" name="a_mult_num1" class="step-input" placeholder="Σy * Σx²"> - <input type="number" name="a_mult_num2" class="step-input" placeholder="Σx * Σxy"> ) / 
+                <input type="number" name="a_mult_den" class="step-input" placeholder="Denominador">
+            </div>
+            <div class="step-row">
+                <div class="step-label">Resta:</div>
+                a = <input type="number" name="a_resta_num" class="step-input"> / <input type="number" name="a_resta_den" class="step-input">
+            </div>
+            <div class="step-row">
+                <div class="step-label">Resultado Final:</div>
+                a = <input type="number" step="0.01" name="a_final" id="a_final" class="final-input" required> <i>(Costos fijos mensuales)</i>
+            </div>
+        </div>
+
+        <h2>3. Simulador de Presupuesto</h2>
+        <div class="budget-box">
+            <p>Modifica el número de publicaciones estimadas para ver cómo interactúa con tus resultados de <b>b</b> y <b>a</b>.</p>
+            <div class="step-row">
+                <label>1. Número de publicaciones a proyectar (X):</label>
+                <input type="number" name="Publicaciones_Proyectadas" id="pub_proj" value="40" style="width: 100px; font-weight: bold;">
+            </div>
+            <div class="step-row">
+                <label>2. Costo Variable Total (b * X):</label>
+                <input type="number" step="0.01" name="Costo_Variable_Proyectado" class="step-input" placeholder="$">
+            </div>
+            <div class="step-row">
+                <label>3. Costo Total Presupuestado (Y):</label>
+                <input type="number" step="0.01" name="Presupuesto_Total_Final" class="final-input" required placeholder="$ Total">
+            </div>
+        </div>
+
+        <input type="hidden" name="_subject" value="Práctica Completa de Costos - Agencia de Marketing">
+        <button type="submit" class="submit-btn">Enviar Evaluación al Docente</button>
+    </form>
+</div>
+
+</body>
+</html>
